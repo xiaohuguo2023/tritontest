@@ -26,12 +26,13 @@ def var_mean_kernel(X, out_mean, out_var, BLOCK: tl.constexpr):
 
 SIZE = 512
 device = 'cuda'
-x = torch.rand(SIZE, device=device)
-out_mean = torch.empty((), device=device)
-out_var = torch.empty((), device=device)
+dtype = torch.float32
+x = torch.rand(SIZE, dtype = dtype, device = device)
+out_mean = torch.empty((), dtype = dtype, device = device)
+out_var = torch.empty((), dtype = dtype, device = device)
 
-kk=var_mean_kernel[(1, )](x, out_mean, out_var, BLOCK=SIZE)
-#print(kk.asm['ttgir'])
+kk=var_mean_kernel[(1, )](x, out_mean, out_var, BLOCK = SIZE)
+print(kk.asm['ttgir'])
 
 expect_var, expect_mean = torch.var_mean(x, dim=0, correction=0)
 torch.testing.assert_close(out_mean, expect_mean)
