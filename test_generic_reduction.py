@@ -26,7 +26,7 @@ def var_mean_kernel(X, out_mean, out_var, BLOCK: tl.constexpr):
 
 SIZE = 512
 device = 'cuda'
-dtype = torch.float32
+dtype = torch.float16
 x = torch.rand(SIZE, dtype = dtype, device = device)
 out_mean = torch.empty((), dtype = dtype, device = device)
 out_var = torch.empty((), dtype = dtype, device = device)
